@@ -1,5 +1,6 @@
 ﻿using Microshaoft;
 using Settings;
+using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +10,17 @@ var configurationManager = builder.Configuration;
 
 var configurationUrl = "https://eamiscstorageacc001.blob.core.windows.net/misc-001/misc.settings.json?sp=r&st=2023-10-11T09:03:31Z&se=2023-10-11T17:03:31Z&sv=2022-11-02&sr=b&sig=cdQzSaieRHL7B8v6MWsVHEWjlLRMEEW3d2TnMGuotsE%3D";
 
-using (var stream = await configurationUrl.AsUrlHttpGetContentReadAsStreamAsync())
-{
-    configurationManager.AddJsonStream(stream);
-}
+await configurationUrl
+                .AsUrlHttpGetContentReadAsStreamAsync
+                    (
+                        async (stream) =>
+                        {
+                            configurationManager.AddJsonStream(stream);
+                            await Task.CompletedTask;
+                        }
+                    );
+    
+
 
 var services = builder.Services;
 

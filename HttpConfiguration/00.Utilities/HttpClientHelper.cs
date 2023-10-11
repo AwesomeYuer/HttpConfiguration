@@ -2,11 +2,17 @@
 
 public static class HttpClientHelper
 {
-    public static async Task<Stream> AsUrlHttpGetContentReadAsStreamAsync(this string @this)
+    public static async Task AsUrlHttpGetContentReadAsStreamAsync
+                    (
+                        this string @this
+                        , Func<Stream, Task> onContentReadAsStreamProcessAsync
+                    )
     { 
         using var httpClient = new HttpClient();
         var uri = new Uri(@this);
-        using var httpResponseMessage = httpClient.GetAsync(uri);
-        return await httpResponseMessage.Result.Content.ReadAsStreamAsync();
+        using var httpResponseMessage = await httpClient.GetAsync(uri);
+        using var stream = await httpResponseMessage.Content.ReadAsStreamAsync();
+        await onContentReadAsStreamProcessAsync(stream);
+        stream.Close();
     }
 }

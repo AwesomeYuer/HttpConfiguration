@@ -23,11 +23,15 @@ public class HttpConfigurationRefresherController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RefreshAsync()
     {
-        using (var stream = await _configurationUrl.AsUrlHttpGetContentReadAsStreamAsync())
-        {
-            _configurationManager
-                            .AddJsonStream(stream);
-        }
+        await _configurationUrl
+                        .AsUrlHttpGetContentReadAsStreamAsync
+                            (
+                                async (stream) =>
+                                {
+                                    _configurationManager.AddJsonStream(stream);
+                                    await Task.CompletedTask;
+                                }
+                            );
         return
             await Task.FromResult(Ok());
     }
