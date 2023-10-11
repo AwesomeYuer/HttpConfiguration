@@ -1,6 +1,4 @@
 using Microshaoft;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Settings;
 
 var builder = WebApplication.CreateBuilder(args);
