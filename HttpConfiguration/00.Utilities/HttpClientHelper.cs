@@ -6,7 +6,7 @@ public static class HttpClientHelper
     { 
         using var httpClient = new HttpClient();
         var uri = new Uri(@this);
-        using var response = httpClient.GetAsync(uri);
-        return await response.Result.Content.ReadAsStreamAsync();
+        using var httpResponseMessage = httpClient.GetAsync(uri);
+        return await httpResponseMessage.Result.Content.ReadAsStreamAsync();
     }
 }
