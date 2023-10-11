@@ -75,9 +75,18 @@ public class HttpConfigurationReaderController : ControllerBase
                                 (
                                     new
                                     { 
-                                        _miscSettingsOptionsValue,
-                                        _miscSettingsOptionsSnapshotValue,
-                                        _miscSettingsOptionsCurrentValue
+                                        OptionsValue = new 
+                                        { 
+                                            misc = _miscSettingsOptionsValue
+                                        },
+                                        OptionsSnapshotValue = new
+                                        {
+                                            misc = _miscSettingsOptionsSnapshotValue
+                                        },
+                                        OptionsCurrentValue = new
+                                        {
+                                            misc = _miscSettingsOptionsCurrentValue
+                                        }
                                     }
                                 )
                         );
