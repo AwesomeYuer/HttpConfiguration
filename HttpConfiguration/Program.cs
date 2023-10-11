@@ -1,4 +1,4 @@
-using Microshaoft;
+ï»¿using Microshaoft;
 using Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +25,7 @@ services.AddSingleton(configurationUrl);
 
 services.AddSingleton(configurationManager);
 
-// ÒşÊ½ Options ×¢Èë
+// éšå¼ Options æ³¨å…¥
 // https://www.zhihu.com/tardis/zm/art/265292938?source_id=1005
 services.Configure<MiscSettings>(configurationManager.GetSection(MiscSettings.SectionName));
 
