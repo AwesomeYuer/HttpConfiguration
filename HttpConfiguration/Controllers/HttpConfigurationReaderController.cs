@@ -1,4 +1,3 @@
-using Microshaoft;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Settings;
@@ -10,7 +9,6 @@ namespace HttpConfiguration.Controllers;
 public class HttpConfigurationReaderController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    //private readonly IConfigurationBuilder _configurationBuilder;
     private readonly MiscSettings _miscSettingsOptionsValue;
     private readonly MiscSettings _miscSettingsOptionsSnapshotValue;
     private readonly MiscSettings _miscSettingsOptionsCurrentValue;
@@ -32,7 +30,6 @@ public class HttpConfigurationReaderController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "misc_")
     {
-
         var keyValuePairs =
                     _configuration
                             .AsEnumerable();
@@ -64,7 +61,6 @@ public class HttpConfigurationReaderController : ControllerBase
                             Ok(keyValuePairs)
                         );
     }
-
 
     [HttpGet]
     [Route("misc")]

@@ -1,27 +1,21 @@
 using Microshaoft;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Settings;
 
 namespace HttpConfiguration.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HttpConfigurationReloaderController : ControllerBase
+public class HttpConfigurationRefresherController : ControllerBase
 {
     private readonly ConfigurationManager _configurationManager;
     private readonly string _configurationUrl;
 
-    public HttpConfigurationReloaderController
+    public HttpConfigurationRefresherController
                     (
-                        //ILogger<HttpConfigurationReloaderController> logger,
-                        //IConfiguration configuration,
                         ConfigurationManager configurationManager,
                         string configurationUrl
                     )
     {
-        //_logger = logger;
-        //_configuration = configuration;
         _configurationManager = configurationManager;
         _configurationUrl = configurationUrl;
     }
@@ -36,6 +30,5 @@ public class HttpConfigurationReloaderController : ControllerBase
         }
         return
             await Task.FromResult(Ok());
-             
     }
 }

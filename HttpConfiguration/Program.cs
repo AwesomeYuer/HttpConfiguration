@@ -29,7 +29,7 @@ services.AddSingleton(configurationManager);
 
 // ÒþÊ½ Options ×¢Èë
 // https://www.zhihu.com/tardis/zm/art/265292938?source_id=1005
-services.Configure<MiscSettings>(configurationManager.GetSection("misc"));
+services.Configure<MiscSettings>(configurationManager.GetSection(MiscSettings.SectionName));
 
 var app = builder.Build();
 
