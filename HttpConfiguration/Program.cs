@@ -1,6 +1,5 @@
 ﻿using Microshaoft;
 using Settings;
-using System.IO;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,8 +18,6 @@ await configurationUrl
                             await Task.CompletedTask;
                         }
                     );
-    
-
 
 var services = builder.Services;
 
