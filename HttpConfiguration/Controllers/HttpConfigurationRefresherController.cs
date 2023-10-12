@@ -12,11 +12,11 @@ public class HttpConfigurationRefresherController : ControllerBase
 
     public HttpConfigurationRefresherController
                     (
-                        IConfigurationBuilder configurationManager,
+                        IConfigurationBuilder configurationBuilder,
                         string configurationUrl
                     )
     {
-        _configurationBuilder = configurationManager;
+        _configurationBuilder = configurationBuilder;
         _configurationUrl = configurationUrl;
     }
 
