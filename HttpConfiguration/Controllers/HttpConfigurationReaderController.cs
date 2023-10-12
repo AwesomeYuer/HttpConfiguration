@@ -18,9 +18,14 @@ public class HttpConfigurationReaderController : ControllerBase
                         IConfiguration configuration,
                         IOptions<MiscSettings> miscSettingsOptions,
                         IOptionsSnapshot<MiscSettings> miscSettingsOptionsSnapshot,
-                        IOptionsMonitor<MiscSettings> miscSettingsOptionsMonitor
+                        IOptionsMonitor<MiscSettings> miscSettingsOptionsMonitor,
+                        string configurationUrl
                     )
     {
+        // 由于测试用 settings.json 也在本 WebApi Server 下, 随意注入些东西既可
+        // WebApi Server 就绪后
+        // program.cs 可以延迟回调 configurationManager.AddJsonHttpGet(configurationUrl!);
+        _ = configurationUrl;
         _configuration = configuration;
         _miscSettingsOptionsValue = miscSettingsOptions.Value;
         _miscSettingsOptionsSnapshotValue = miscSettingsOptionsSnapshot.Value;

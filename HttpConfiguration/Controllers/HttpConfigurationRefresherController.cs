@@ -7,31 +7,23 @@ namespace HttpConfiguration.Controllers;
 [Route("[controller]")]
 public class HttpConfigurationRefresherController : ControllerBase
 {
-    private readonly ConfigurationManager _configurationManager;
+    private readonly IConfigurationBuilder _configurationBuilder;
     private readonly string _configurationUrl;
 
     public HttpConfigurationRefresherController
                     (
-                        ConfigurationManager configurationManager,
+                        IConfigurationBuilder configurationManager,
                         string configurationUrl
                     )
     {
-        _configurationManager = configurationManager;
+        _configurationBuilder = configurationManager;
         _configurationUrl = configurationUrl;
     }
 
     [HttpPost]
     public async Task<IActionResult> RefreshAsync()
     {
-        await _configurationUrl
-                        .AsUrlHttpGetContentReadAsStreamAsync
-                            (
-                                async (stream) =>
-                                {
-                                    _configurationManager.AddJsonStream(stream);
-                                    await Task.CompletedTask;
-                                }
-                            );
+        _configurationBuilder.AddJsonHttpGet(_configurationUrl);
         return
             await Task.FromResult(Ok());
     }

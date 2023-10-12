@@ -7,17 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configurationManager = builder.Configuration;
 
-var configurationUrl = "https://eamiscstorageacc001.blob.core.windows.net/misc-001/misc.settings.json?sp=r&st=2023-10-11T09:03:31Z&se=2023-10-11T17:03:31Z&sv=2022-11-02&sr=b&sig=cdQzSaieRHL7B8v6MWsVHEWjlLRMEEW3d2TnMGuotsE%3D";
-
-await configurationUrl
-                .AsUrlHttpGetContentReadAsStreamAsync
-                    (
-                        async (stream) =>
-                        {
-                            configurationManager.AddJsonStream(stream);
-                            await Task.CompletedTask;
-                        }
-                    );
+var configurationUrl = "http://localhost:5195/misc.settings.remote.json";
 
 var services = builder.Services;
 
@@ -26,9 +16,21 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
-services.AddSingleton(configurationUrl);
+// 一般情况 如下方式既可 settings.json 不在本 WebApi Server 下
+// configurationManager.AddJsonHttpGet(configurationUrl!);
 
-services.AddSingleton(configurationManager);
+services.AddSingleton
+                (
+                    (x) =>
+                    {
+                        // 由于测试用 settings.json 也在本 WebApi Server 下
+                        // 所以回调延迟加载
+                        configurationManager.AddJsonHttpGet(configurationUrl!);
+                        return configurationUrl;
+                    }
+                );
+
+services.AddSingleton<IConfigurationBuilder>(configurationManager);
 
 // 隐式 Options 注入
 // https://www.zhihu.com/tardis/zm/art/265292938?source_id=1005
@@ -42,6 +44,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// settings.json 也在本 WebApi Server 下
+app.UseFileServer(true);
 
 app.UseHttpsRedirection();
 
