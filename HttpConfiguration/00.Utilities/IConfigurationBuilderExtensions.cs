@@ -9,15 +9,15 @@ public static class IConfigurationBuilderExtensions
                     )
     {
         jsonFileUrl
-                    .AsUrlHttpGetContentReadAsStreamAsync
-                        (
-                            async (stream) =>
-                            {
-                                @this.AddJsonStream(stream);
-                                await Task.CompletedTask;
-                            }
-                        )
-                    .Wait();
+                .AsUrlHttpGetContentReadAsStreamAsync
+                    (
+                        async (stream) =>
+                        {
+                            @this.AddJsonStream(stream);
+                            await Task.CompletedTask;
+                        }
+                    )
+                .Wait();
         return @this;
     }
 }
