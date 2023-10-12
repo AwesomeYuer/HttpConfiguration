@@ -1,4 +1,5 @@
 using Microshaoft;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Settings;
@@ -10,7 +11,6 @@ namespace HttpConfiguration.Controllers;
 public class HttpConfigurationController : ControllerBase
 {
     private readonly IConfiguration _configuration;
-    private readonly IConfigurationBuilder _configurationBuilder;
 
     private readonly MiscSettings _miscSettingsOptionsValue;
     private readonly MiscSettings _miscSettingsOptionsSnapshotValue;
@@ -23,7 +23,6 @@ public class HttpConfigurationController : ControllerBase
                         string configurationUrl,
 
                         IConfiguration configuration,
-                        IConfigurationBuilder configurationBuilder,
 
                         IOptions<MiscSettings> miscSettingsOptions,
                         IOptionsSnapshot<MiscSettings> miscSettingsOptionsSnapshot,
@@ -33,8 +32,7 @@ public class HttpConfigurationController : ControllerBase
         _configurationUrl = configurationUrl;
 
         _configuration = configuration;
-        _configurationBuilder = configurationBuilder;
-        
+                
         _miscSettingsOptionsValue = miscSettingsOptions.Value;
         _miscSettingsOptionsSnapshotValue = miscSettingsOptionsSnapshot.Value;
         _miscSettingsOptionsCurrentValue = miscSettingsOptionsMonitor.CurrentValue;
@@ -62,7 +60,14 @@ public class HttpConfigurationController : ControllerBase
                                     (x) =>
                                     {
                                         return
-                                            x.Key.StartsWith(keyPrefix, StringComparison.OrdinalIgnoreCase);
+                                            x
+                                                .Key
+                                                .StartsWith
+                                                    (
+                                                        keyPrefix
+                                                        , StringComparison
+                                                                .OrdinalIgnoreCase
+                                                    );
                                     }
                                 )
                             ;
@@ -110,7 +115,9 @@ public class HttpConfigurationController : ControllerBase
     [Route("refresh")]
     public async Task<IActionResult> RefreshAsync()
     {
-        _configurationBuilder.AddJsonHttpGet(_configurationUrl);
+        var configurationBuilder = (IConfigurationBuilder) _configuration; 
+
+        configurationBuilder.AddJsonHttpGet(_configurationUrl);
 
         var result = await GetAsync(keyPrefix: "misc");
 
