@@ -19,6 +19,7 @@ services.AddSwaggerGen();
 // 一般情况 如下方式既可 settings.json 不在本 WebApi Server 下
 // configurationManager.AddJsonHttpGet(configurationUrl!);
 
+// 特殊情况 随 configurationUrl 注入延迟回调时加载配置
 services.AddSingleton
                 (
                     (x) =>
