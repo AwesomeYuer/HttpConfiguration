@@ -1,3 +1,4 @@
+using Microshaoft;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Settings;
@@ -6,34 +7,42 @@ namespace HttpConfiguration.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class HttpConfigurationReaderController : ControllerBase
+public class HttpConfigurationController : ControllerBase
 {
     private readonly IConfiguration _configuration;
+    private readonly IConfigurationBuilder _configurationBuilder;
+
     private readonly MiscSettings _miscSettingsOptionsValue;
     private readonly MiscSettings _miscSettingsOptionsSnapshotValue;
     private readonly MiscSettings _miscSettingsOptionsCurrentValue;
-    
-    public HttpConfigurationReaderController
+
+    private readonly string _configurationUrl;
+
+    public HttpConfigurationController
                     (
+                        string configurationUrl,
+
                         IConfiguration configuration,
+                        IConfigurationBuilder configurationBuilder,
+
                         IOptions<MiscSettings> miscSettingsOptions,
                         IOptionsSnapshot<MiscSettings> miscSettingsOptionsSnapshot,
-                        IOptionsMonitor<MiscSettings> miscSettingsOptionsMonitor,
-                        string configurationUrl
+                        IOptionsMonitor<MiscSettings> miscSettingsOptionsMonitor
                     )
     {
-        // 由于测试用 settings.json 也在本 WebApi Server 下, 随意注入些东西既可
-        // WebApi Server 就绪后
-        // program.cs 可以延迟回调 configurationManager.AddJsonHttpGet(configurationUrl!);
-        _ = configurationUrl;
+        _configurationUrl = configurationUrl;
+
         _configuration = configuration;
+        _configurationBuilder = configurationBuilder;
+        
         _miscSettingsOptionsValue = miscSettingsOptions.Value;
         _miscSettingsOptionsSnapshotValue = miscSettingsOptionsSnapshot.Value;
         _miscSettingsOptionsCurrentValue = miscSettingsOptionsMonitor.CurrentValue;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "misc_")
+    [Route("read")]
+    public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "misc")
     {
         var keyValuePairs =
                     _configuration
@@ -53,7 +62,7 @@ public class HttpConfigurationReaderController : ControllerBase
                                     (x) =>
                                     {
                                         return
-                                            x.Key.StartsWith("misc_", StringComparison.OrdinalIgnoreCase);
+                                            x.Key.StartsWith(keyPrefix, StringComparison.OrdinalIgnoreCase);
                                     }
                                 )
                             ;
@@ -68,7 +77,7 @@ public class HttpConfigurationReaderController : ControllerBase
     }
 
     [HttpGet]
-    [Route("misc")]
+    [Route("read/MiscSettings")]
     public async Task<IActionResult> GetMiscSettingsAsync()
     {
         return
@@ -95,5 +104,16 @@ public class HttpConfigurationReaderController : ControllerBase
                                     }
                                 )
                         );
+    }
+
+    [HttpPost]
+    [Route("refresh")]
+    public async Task<IActionResult> RefreshAsync()
+    {
+        _configurationBuilder.AddJsonHttpGet(_configurationUrl);
+
+        var result = await GetAsync(keyPrefix: "misc");
+
+        return result;
     }
 }
