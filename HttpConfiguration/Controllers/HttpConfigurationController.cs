@@ -115,7 +115,6 @@ public class HttpConfigurationController : ControllerBase
     public async Task<IActionResult> RefreshAsync()
     {
         var configurationBuilder = (IConfigurationBuilder) _configuration; 
-
         configurationBuilder.AddJsonHttpGet(_configurationUrl);
 
         var result = await GetAsync(keyPrefix: "misc");
