@@ -21,7 +21,8 @@ services.AddSwaggerGen();
 
 // 特殊情况 随 configurationUrl 注入,
 // 由于测试用 settings.json 也在本 WebApi Server 下,
-// 以便 controller 构造延迟首次一次性回调时加载初始配置
+// 因此采用如下方式注入,
+// 以便 controller 构造时, 延迟首次一次性回调时加载初始配置
 services
         .AddSingleton
             (
