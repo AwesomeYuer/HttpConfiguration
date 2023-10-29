@@ -12,6 +12,10 @@ public class EnvironmentVariablesController : ControllerBase
     [Route("read")]
     public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "var")
     {
+        //±‹√‚–≈œ¢–π¬∂–¥À¿
+
+        //keyPrefix = "var";
+
         IEnumerable
             <
                 (
@@ -32,38 +36,44 @@ public class EnvironmentVariablesController : ControllerBase
             }
         }
 
+        var result = GetEnvironmentVariablesAsIEnumerable();
+
+        if (keyPrefix != "*")
+        {
+            result = result
+                        .Where
+                            (
+                                (x) =>
+                                {
+                                    return
+                                        x
+                                            .EnvironmentVariableName
+                                            .StartsWith(keyPrefix, StringComparison.OrdinalIgnoreCase);
+                                }
+                            );
+        }
+
         return
-            await
-                Task
+            await Task
                     .FromResult
                         (
                             Ok
                                 (
-                                    GetEnvironmentVariablesAsIEnumerable()
-                                        .Where
-                                            (
-                                                (x) =>
-                                                {
-                                                    return
-                                                        x
-                                                            .EnvironmentVariableName
-                                                            .StartsWith(keyPrefix, StringComparison.OrdinalIgnoreCase);
-                                                }
-                                            )
+                                    result
                                         .Select
                                             (
                                                 (x) =>
                                                 {
                                                     return
-                                                            new
-                                                            {
-                                                                x.EnvironmentVariableName,
-                                                                x.EnvironmentVariableValue,
-                                                                GetEnvironmentVariable =
-                                                                                    Environment
-                                                                                        .GetEnvironmentVariable
-                                                                                            (x.EnvironmentVariableName)
-                                                            };
+                                                        new
+                                                        {
+                                                            x.EnvironmentVariableName
+                                                            , x.EnvironmentVariableValue
+                                                            , GetEnvironmentVariable =
+                                                                            Environment
+                                                                                    .GetEnvironmentVariable
+                                                                                        (x.EnvironmentVariableName)
+                                                        };
                                                 }
                                             )
                                 )
