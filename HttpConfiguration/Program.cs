@@ -16,6 +16,13 @@ services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
 
+var configurationSections = configuration.GetSection("customEnvVar").GetChildren();
+foreach (var configurationSection in configurationSections)
+{
+    Console.WriteLine($"{configurationSection.Key} = {configurationSection.Value}");
+    Environment.SetEnvironmentVariable(configurationSection.Key, configurationSection.Value);
+}
+
 // 一般情况 如下方式既可, 由于 settings.json 不在本 WebApi Server 下
 // configuration.AddJsonHttpGet(configurationUrl!);
 
@@ -44,7 +51,7 @@ services.Configure<MiscSettings>(configuration.GetSection(MiscSettings.SectionNa
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
