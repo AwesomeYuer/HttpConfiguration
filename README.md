@@ -19,6 +19,8 @@ https://learn.microsoft.com/en-us/azure/app-service/deploy-zip?tabs=powershell
 
 ```powershell
 
+# https://www.powershellgallery.com/
+
 $PSVersionTable.PSVersion
 
 # https://github.com/PowerShell/PowerShell/releases/tag/v7.2.16
