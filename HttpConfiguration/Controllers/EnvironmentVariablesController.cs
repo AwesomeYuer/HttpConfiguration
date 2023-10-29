@@ -10,7 +10,7 @@ public class EnvironmentVariablesController : ControllerBase
     
     [HttpGet]
     [Route("read")]
-    public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "var")
+    public async Task<IActionResult> GetAsync([FromQuery] string? keyPrefix = "var")
     {
         //±‹√‚–≈œ¢–π¬∂–¥À¿
 
@@ -38,7 +38,12 @@ public class EnvironmentVariablesController : ControllerBase
 
         var result = GetEnvironmentVariablesAsIEnumerable();
 
-        if (keyPrefix != "*")
+        if
+            (
+                !string.IsNullOrEmpty(keyPrefix)
+                &&
+                keyPrefix != "*"
+            )
         {
             result = result
                         .Where

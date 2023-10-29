@@ -39,7 +39,7 @@ public class HttpConfigurationController : ControllerBase
 
     [HttpGet]
     [Route("read")]
-    public async Task<IActionResult> GetAsync([FromQuery] string keyPrefix = "misc")
+    public async Task<IActionResult> GetAsync([FromQuery] string? keyPrefix = "misc")
     {
         var keyValuePairs =
                     _configuration
