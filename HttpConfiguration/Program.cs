@@ -15,7 +15,7 @@ foreach (var configurationSection in configurationSections)
     Environment.SetEnvironmentVariable(configurationSection.Key, configurationSection.Value);
 }
 
-var configurationUrl = "http://localhost/misc.settings.remote.json";
+var configurationUrl = "http://localhost:8080/misc.settings.remote.json";
 configurationUrl = configuration.GetValue(nameof(configurationUrl), configurationUrl);
 
 var services = builder.Services;
