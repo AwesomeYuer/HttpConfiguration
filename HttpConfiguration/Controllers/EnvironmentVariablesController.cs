@@ -58,7 +58,11 @@ public class EnvironmentVariablesController : ControllerBase
                                                             new
                                                             {
                                                                 x.EnvironmentVariableName,
-                                                                x.EnvironmentVariableValue
+                                                                x.EnvironmentVariableValue,
+                                                                GetEnvironmentVariable =
+                                                                                    Environment
+                                                                                        .GetEnvironmentVariable
+                                                                                            (x.EnvironmentVariableName)
                                                             };
                                                 }
                                             )
