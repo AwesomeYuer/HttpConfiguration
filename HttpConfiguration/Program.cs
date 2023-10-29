@@ -7,6 +7,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
+var configurationSections = configuration.GetSection("customEnvVar").GetChildren();
+foreach (var configurationSection in configurationSections)
+{
+    Console.WriteLine($"{configurationSection.Key} = {configurationSection.Value}");
+    Environment.SetEnvironmentVariable(configurationSection.Key, configurationSection.Value);
+}
+
 var configurationUrl = "http://localhost:5195/misc.settings.remote.json";
 
 var services = builder.Services;
@@ -15,13 +22,6 @@ services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-
-var configurationSections = configuration.GetSection("customEnvVar").GetChildren();
-foreach (var configurationSection in configurationSections)
-{
-    Console.WriteLine($"{configurationSection.Key} = {configurationSection.Value}");
-    Environment.SetEnvironmentVariable(configurationSection.Key, configurationSection.Value);
-}
 
 // 一般情况 如下方式既可, 由于 settings.json 不在本 WebApi Server 下
 // configuration.AddJsonHttpGet(configurationUrl!);
