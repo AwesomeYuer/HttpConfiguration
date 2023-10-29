@@ -1,6 +1,6 @@
 # HttpConfiguration
 
-- Remote Http Configuration `misc.settings.json`
+- Remote Http Configuration `misc.settings.remote.json`
 
   ```json
   {
