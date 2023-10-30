@@ -14,7 +14,6 @@
   ```
 
 # Visual Studio Publish Zip Profile
-
 https://gist.github.com/brianpursley/671b1909e2359d2a0ab1ba004f7e5ea7
 
 ```xml
@@ -51,10 +50,11 @@ Install-Module -Name Az.Accounts -AllowClobber
 
 Install-Module -Name Az.Websites
 
+# https://learn.microsoft.com/en-us/powershell/module/az.accounts/connect-azaccount?view=azps-10.4.1
 Connect-AzAccount
 
+# https://learn.microsoft.com/en-us/powershell/module/az.websites/publish-azwebapp?view=azps-10.4.1
 # Publish-AzWebApp -ResourceGroupName Default-Web-WestUS -Name MyApp -ArchivePath <zip-package-path> 
-
 Publish-AzWebApp -ResourceGroupName AzResourceGroupName -Name AzWebAppServiceName -ArchivePath "d:\xxxxxx.zip" -Force
 
 ```
