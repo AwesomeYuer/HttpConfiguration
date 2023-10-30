@@ -83,6 +83,7 @@ app
                     settingsFilesDirectory
                 )
                 , RequestPath = new PathString("/settings")
+                , EnableDirectoryBrowsing = true
             }
         );
 
