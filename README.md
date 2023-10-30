@@ -13,8 +13,19 @@
   }
   ```
 
+# Visual Studio Publish Zip Profile
 
-# Deploy files to App Service
+https://gist.github.com/brianpursley/671b1909e2359d2a0ab1ba004f7e5ea7
+
+```xml
+  <Target Name="ZipPublishOutput" AfterTargets="FileSystemPublish">
+    <ZipDirectory SourceDirectory="$(publishUrl)" DestinationFile="$(publishUrl)\..\$(MSBuildProjectName).zip" />
+    <RemoveDir Directories="$(publishUrl)" />
+  </Target>
+```
+
+
+# Deploy Zip file to App Service
 https://learn.microsoft.com/en-us/azure/app-service/deploy-zip?tabs=powershell
 
 ```powershell
