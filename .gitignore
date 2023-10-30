@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/HttpConfiguration/Properties/PublishProfiles/misc-AzWebAppService - FTP.pubxml
+/HttpConfiguration/Properties/PublishProfiles/misc-AzWebAppService - Web Deploy.pubxml
+/HttpConfiguration/Properties/PublishProfiles/misc-AzWebAppService - Zip Deploy.pubxml
