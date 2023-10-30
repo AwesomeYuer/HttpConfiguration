@@ -1,4 +1,6 @@
 ﻿using Microshaoft;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.FileProviders;
 using Settings;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,7 @@ foreach (var configurationSection in configurationSections)
     Environment.SetEnvironmentVariable(configurationSection.Key, configurationSection.Value);
 }
 
-var configurationUrl = "http://localhost:8080/misc.settings.remote.json";
+var configurationUrl = "http://localhost:8080/settings/misc.settings.remote.json";
 configurationUrl = configuration.GetValue(nameof(configurationUrl), configurationUrl);
 
 var services = builder.Services;
@@ -59,8 +61,30 @@ var app = builder.Build();
     app.UseSwaggerUI();
 }
 
+app.UseFileServer();
+
 // settings.json 也在本 WebApi Server 下
-app.UseFileServer(true);
+
+string settingsFilesDirectory =
+        configuration
+                .GetValue
+                    (
+                        nameof(settingsFilesDirectory)
+                        , Path.Combine(Directory.GetCurrentDirectory(), "00.Settings")
+                    );
+
+app
+    .UseFileServer
+        (
+            new FileServerOptions()
+            {
+                FileProvider = new PhysicalFileProvider
+                (
+                    settingsFilesDirectory
+                )
+                , RequestPath = new PathString("/settings")
+            }
+        );
 
 app.UseHttpsRedirection();
 
