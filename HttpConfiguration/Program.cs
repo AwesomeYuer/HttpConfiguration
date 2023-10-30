@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
 
-// 从 configuration customEnvVar 节点中加载所有自定义环境变量
+// 从 configuration customEnvVars 节点中加载所有自定义环境变量
 var configurationSections = configuration.GetSection("customEnvVars").GetChildren();
 foreach (var configurationSection in configurationSections)
 {
