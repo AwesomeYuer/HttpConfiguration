@@ -18,6 +18,7 @@ https://gist.github.com/brianpursley/671b1909e2359d2a0ab1ba004f7e5ea7
 
 ```xml
   <Target Name="ZipPublishOutput" AfterTargets="FileSystemPublish">
+    <Exec Command="del $(publishUrl)\..\$(MSBuildProjectName).zip" />
     <ZipDirectory SourceDirectory="$(publishUrl)" DestinationFile="$(publishUrl)\..\$(MSBuildProjectName).zip" />
     <RemoveDir Directories="$(publishUrl)" />
   </Target>
