@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+ï»¿using Microsoft.AspNetCore.Mvc;
 using System.Collections;
 
 namespace HttpConfiguration.Controllers;
@@ -12,7 +12,7 @@ public class EnvironmentVariablesController : ControllerBase
     [Route("read")]
     public async Task<IActionResult> GetAsync([FromQuery] string? keyPrefix = "var")
     {
-        //±ÜÃâĞÅÏ¢Ğ¹Â¶Ğ´ËÀ
+        //é¿å…ä¿¡æ¯æ³„éœ²å†™æ­»
 
         //keyPrefix = "var";
 
