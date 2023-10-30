@@ -55,7 +55,7 @@ Connect-AzAccount
 
 # Publish-AzWebApp -ResourceGroupName Default-Web-WestUS -Name MyApp -ArchivePath <zip-package-path> 
 
-Publish-AzWebApp -ResourceGroupName ea-misc-001-rg -Name AzAppServiceDeployTest -ArchivePath "D:\MyGitHub\AzAppServiceDeployTest\AzAppServiceDeployTest\obj\Release\net6.0\PubTmp\AzAppServiceDeployTest-20231030021323085.zip"
+Publish-AzWebApp -ResourceGroupName AzResourceGroupName -Name AzWebAppServiceName -ArchivePath "d:\xxxxxx.zip" -Force
 
 ```
 
