@@ -60,8 +60,7 @@ Publish-AzWebApp -ResourceGroupName AzResourceGroupName -Name AzWebAppServiceNam
 
 ```
 
-# Deploy Azure `WebJobs Zip File
-` by using `Azure CLI`
+# Deploy Azure `WebJobs Zip File` by using `Azure CLI`
   https://mariankostal.com/2020/07/17/deploy-azure-webjob-using-powershell/
 
   https://azcliprod.blob.core.windows.net/msi/azure-cli-2.53.1-x64.msi
