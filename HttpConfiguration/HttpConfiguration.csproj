@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <_WebToolingArtifacts Remove="Properties\PublishProfiles\LocalZipProfile.pubxml" />
+    <_WebToolingArtifacts Remove="Properties\PublishProfiles\misc-AzAppServiceWebJobs-win - Web Deploy.pubxml" />
   </ItemGroup>
 
   <ItemGroup>
